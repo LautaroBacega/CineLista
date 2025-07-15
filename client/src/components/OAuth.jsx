@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react'
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth"
 import { app } from "../firebase"
 import { useUser } from "../hooks/useUser"

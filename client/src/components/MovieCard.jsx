@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react'
 import { Star, Heart, Eye, EyeOff, Plus } from "lucide-react"
 import { useState } from "react"
 import { useUser } from "../hooks/useUser"

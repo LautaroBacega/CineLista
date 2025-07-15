@@ -1,4 +1,6 @@
 "use client"
+
+import React from 'react'
 import { SearchIcon } from "lucide-react"
 
 const Search = ({ searchTerm, setSearchTerm }) => {

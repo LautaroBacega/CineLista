@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react'
 import { Link } from "react-router-dom"
 import { useUser } from "../hooks/useUser"
 import { TrendingUp, Film } from "lucide-react"

@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react'
 import { useUser } from "../hooks/useUser"
 import { Outlet, Navigate } from "react-router-dom"
 
