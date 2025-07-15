@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser"
 import path from "path"
 import { fileURLToPath } from "url"
 import cors from "cors"
+import listRoutes from "./routes/list.route.js"
 
 dotenv.config()
 
@@ -84,6 +85,7 @@ app.use((req, res, next) => {
 // API routes
 app.use("/api/user", userRoutes)
 app.use("/api/auth", authRoutes)
+app.use("/api/lists", listRoutes)
 
 // En producción, servir archivos estáticos
 if (!isDevelopment) {

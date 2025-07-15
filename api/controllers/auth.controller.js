@@ -4,6 +4,7 @@ import { errorHandler } from "../utils/error.js"
 import crypto from "crypto"
 import { sendPasswordResetEmail, sendPasswordResetConfirmation } from "../services/email.service.js"
 import { generateAccessToken, generateRefreshToken, getRefreshTokenExpiry } from "../utils/tokenUtils.js"
+import { createDefaultLists } from "./list.controller.js"
 
 // Helper function to set tokens in cookies
 const setTokenCookies = (res, accessToken, refreshToken) => {
@@ -30,7 +31,11 @@ export const signup = async (req, res, next) => {
   const hashedPassword = bcryptjs.hashSync(password, 10)
   const newUser = new User({ username, email, password: hashedPassword })
   try {
-    await newUser.save()
+    const savedUser = await newUser.save()
+
+    // Create default lists for new user
+    await createDefaultLists(savedUser._id)
+
     res.status(201).json({ message: "User created successfully" })
   } catch (error) {
     next(error)

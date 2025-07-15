@@ -9,6 +9,8 @@ import ForgotPassword from "./components/ForgotPassword"
 import ResetPassword from "./components/ResetPassword"
 import SessionExpiredModal from "./components/SessionExpiredModal"
 import TokenTimers from "./components/TokenTimers"
+import UserLists from "./components/UserLists"
+import SharedList from "./pages/SharedList"
 
 export default function App() {
   return (
@@ -20,6 +22,8 @@ export default function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/lists" element={<UserLists />} />
+        <Route path="/shared-list/:token" element={<SharedList />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>

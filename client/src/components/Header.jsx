@@ -2,7 +2,7 @@
 
 import { Link } from "react-router-dom"
 import { useUser } from "../hooks/useUser"
-import { User, Home, Info } from "lucide-react"
+import { User, Home, List } from "lucide-react"
 
 export default function Header() {
   const { currentUser } = useUser()
@@ -25,6 +25,16 @@ export default function Header() {
               <Home size={18} className="group-hover:scale-110 transition-transform duration-200" />
               <span className="hidden sm:block font-medium">Inicio</span>
             </Link>
+
+            {currentUser && (
+              <Link
+                to="/lists"
+                className="group flex items-center gap-2 text-slate-300 hover:text-white transition-colors duration-200"
+              >
+                <List size={18} className="group-hover:scale-110 transition-transform duration-200" />
+                <span className="hidden sm:block font-medium">Mis Listas</span>
+              </Link>
+            )}
 
             <Link to="/profile" className="group flex items-center gap-2">
               {currentUser ? (
