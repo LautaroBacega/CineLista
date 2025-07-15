@@ -40,7 +40,7 @@ const corsOptions = {
       "http://localhost:3000", // Backend local
       "http://127.0.0.1:5173",
       "http://127.0.0.1:3000",
-      "https://autenticacion-o8nx.onrender.com", // Tu dominio de Render
+      "https://movieapp-8x3t.onrender.com", // Tu dominio de Render
       process.env.FRONTEND_URL, // Variable de entorno para flexibilidad
     ].filter(Boolean) // Filtrar valores undefined
 
