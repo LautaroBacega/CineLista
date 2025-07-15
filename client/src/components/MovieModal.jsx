@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { X, Star, Calendar, Clock, Users, Plus, Check } from "lucide-react"
 import { useUser } from "../hooks/useUser"
 import { apiInterceptor } from "../utils/apiInterceptor"
+import AuthRequiredModal from "./AuthRequiredModal"
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 const API_OPTIONS = {
@@ -21,6 +22,7 @@ export default function MovieModal({ movie, isOpen, onClose }) {
   const [userLists, setUserLists] = useState([])
   const [showListSelector, setShowListSelector] = useState(false)
   const [addingToList, setAddingToList] = useState(false)
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const { currentUser } = useUser()
 
   useEffect(() => {
@@ -53,6 +55,8 @@ export default function MovieModal({ movie, isOpen, onClose }) {
   }
 
   const fetchUserLists = async () => {
+    if (!currentUser) return
+
     try {
       const response = await apiInterceptor.fetchWithAuth("/api/lists")
       const lists = await response.json()
@@ -62,7 +66,20 @@ export default function MovieModal({ movie, isOpen, onClose }) {
     }
   }
 
+  const handleAddToListClick = () => {
+    if (!currentUser) {
+      setShowAuthModal(true)
+      return
+    }
+    setShowListSelector(!showListSelector)
+  }
+
   const addToList = async (listId) => {
+    if (!currentUser) {
+      setShowAuthModal(true)
+      return
+    }
+
     setAddingToList(true)
     try {
       await apiInterceptor.fetchWithAuth(`/api/lists/${listId}/movies`, {
@@ -82,6 +99,9 @@ export default function MovieModal({ movie, isOpen, onClose }) {
       setShowListSelector(false)
     } catch (error) {
       console.error("Error adding movie to list:", error)
+      if (error.message.includes("401")) {
+        setShowAuthModal(true)
+      }
     } finally {
       setAddingToList(false)
     }
@@ -177,35 +197,33 @@ export default function MovieModal({ movie, isOpen, onClose }) {
                   </p>
                 </div>
 
-                {/* Add to List Button */}
-                {currentUser && (
-                  <div className="relative">
-                    <button
-                      onClick={() => setShowListSelector(!showListSelector)}
-                      className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
-                    >
-                      <Plus size={20} />
-                      Agregar a Lista
-                    </button>
+                {/* Add to List Button - Siempre visible */}
+                <div className="relative">
+                  <button
+                    onClick={handleAddToListClick}
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  >
+                    <Plus size={20} />
+                    {currentUser ? "Agregar a Lista" : "Agregar a Lista (Requiere cuenta)"}
+                  </button>
 
-                    {/* List Selector Dropdown */}
-                    {showListSelector && (
-                      <div className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10 min-w-48">
-                        {userLists.map((list) => (
-                          <button
-                            key={list._id}
-                            onClick={() => addToList(list._id)}
-                            disabled={isMovieInList(list._id) || addingToList}
-                            className="w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
-                            <span className="text-gray-900 dark:text-white">{list.name}</span>
-                            {isMovieInList(list._id) && <Check size={16} className="text-green-500" />}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
+                  {/* List Selector Dropdown - Solo si hay usuario */}
+                  {showListSelector && currentUser && (
+                    <div className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10 min-w-48">
+                      {userLists.map((list) => (
+                        <button
+                          key={list._id}
+                          onClick={() => addToList(list._id)}
+                          disabled={isMovieInList(list._id) || addingToList}
+                          className="w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <span className="text-gray-900 dark:text-white">{list.name}</span>
+                          {isMovieInList(list._id) && <Check size={16} className="text-green-500" />}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -269,6 +287,8 @@ export default function MovieModal({ movie, isOpen, onClose }) {
           </div>
         )}
       </div>
+      {/* Auth Required Modal */}
+      <AuthRequiredModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} movieTitle={movie?.title} />
     </div>
   )
 }

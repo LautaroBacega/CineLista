@@ -11,6 +11,7 @@ import MovieCard from "../components/MovieCard.jsx"
 import { useDebounce } from "react-use"
 import { getTrendingMovies, updateSearchCount } from "../appwrite.js"
 import MovieModal from "../components/MovieModal.jsx"
+import { apiInterceptor } from "../utils/apiInterceptor.js"
 
 const API_BASE_URL = "https://api.themoviedb.org/3"
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
@@ -34,6 +35,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
 
   const [trendingMovies, setTrendingMovies] = useState([])
+  const [userLists, setUserLists] = useState([])
 
   const [selectedMovie, setSelectedMovie] = useState(null)
   const [showMovieModal, setShowMovieModal] = useState(false)
@@ -86,6 +88,22 @@ export default function Home() {
     }
   }
 
+  const fetchUserLists = async () => {
+    if (!currentUser) {
+      setUserLists([])
+      return
+    }
+
+    try {
+      const response = await apiInterceptor.fetchWithAuth("/api/lists")
+      const lists = await response.json()
+      setUserLists(lists)
+    } catch (error) {
+      console.error("Error fetching user lists:", error)
+      setUserLists([])
+    }
+  }
+
   useEffect(() => {
     fetchMovies(debouncedSearchTerm)
   }, [debouncedSearchTerm])
@@ -93,6 +111,10 @@ export default function Home() {
   useEffect(() => {
     loadTrendingMovies()
   }, [])
+
+  useEffect(() => {
+    fetchUserLists()
+  }, [currentUser])
 
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie)
@@ -238,7 +260,7 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {movieList.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} onMovieClick={handleMovieClick} />
+                <MovieCard key={movie.id} movie={movie} onMovieClick={handleMovieClick} userLists={userLists} />
               ))}
             </div>
           )}

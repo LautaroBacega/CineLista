@@ -19,6 +19,10 @@ export default function UserLists() {
   useEffect(() => {
     if (currentUser) {
       fetchLists()
+
+      // Refrescar listas cada 30 segundos para mantener sincronización
+      const interval = setInterval(fetchLists, 30000)
+      return () => clearInterval(interval)
     }
   }, [currentUser])
 
@@ -80,11 +84,21 @@ export default function UserLists() {
       })
 
       if (response.ok) {
-        await fetchLists()
-        // Update selected list if it's currently shown
+        // Actualizar inmediatamente el estado local
+        setLists((prevLists) =>
+          prevLists.map((list) =>
+            list._id === listId
+              ? { ...list, movies: list.movies.filter((m) => m.movieId !== Number.parseInt(movieId)) }
+              : list,
+          ),
+        )
+
+        // Actualizar selectedList si es la que se está mostrando
         if (selectedList?._id === listId) {
-          const updatedList = lists.find((l) => l._id === listId)
-          setSelectedList(updatedList)
+          setSelectedList((prev) => ({
+            ...prev,
+            movies: prev.movies.filter((m) => m.movieId !== Number.parseInt(movieId)),
+          }))
         }
       }
     } catch (error) {

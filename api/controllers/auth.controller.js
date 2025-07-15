@@ -34,7 +34,12 @@ export const signup = async (req, res, next) => {
     const savedUser = await newUser.save()
 
     // Create default lists for new user
-    await createDefaultLists(savedUser._id)
+    try {
+      await createDefaultLists(savedUser._id)
+      console.log(`✅ Default lists created for user ${savedUser._id}`)
+    } catch (listError) {
+      console.error("❌ Error creating default lists:", listError)
+    }
 
     res.status(201).json({ message: "User created successfully" })
   } catch (error) {
@@ -101,8 +106,17 @@ export const google = async (req, res, next) => {
       })
       await newUser.save()
 
+      // Create default lists for new user
+      try {
+        await createDefaultLists(newUser._id)
+        console.log(`✅ Default lists created for Google user ${newUser._id}`)
+      } catch (listError) {
+        console.error("❌ Error creating default lists:", listError)
+      }
+
       // Generate tokens
       const accessToken = generateAccessToken(newUser._id)
+
       const refreshToken = generateRefreshToken()
       const refreshTokenExpiry = getRefreshTokenExpiry()
 
