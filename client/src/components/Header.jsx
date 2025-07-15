@@ -26,14 +26,6 @@ export default function Header() {
               <span className="hidden sm:block font-medium">Inicio</span>
             </Link>
 
-            <Link
-              to="/about"
-              className="group flex items-center gap-2 text-slate-300 hover:text-white transition-colors duration-200"
-            >
-              <Info size={18} className="group-hover:scale-110 transition-transform duration-200" />
-              <span className="hidden sm:block font-medium">Acerca de</span>
-            </Link>
-
             <Link to="/profile" className="group flex items-center gap-2">
               {currentUser ? (
                 <div className="flex items-center gap-2">
