@@ -243,7 +243,7 @@ export const requestPasswordReset = async (req, res, next) => {
         ? process.env.FRONTEND_URL || req.protocol + "://" + req.get("host")
         : "http://localhost:5173"
 
-    const resetUrl = `${baseUrl}/reset-password?token=${resetToken}`
+    const resetUrl = `${baseUrl}reset-password?token=${resetToken}`
 
     // Send email
     try {

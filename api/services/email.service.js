@@ -94,11 +94,11 @@ export const sendPasswordResetEmail = async (email, resetUrl, username) => {
 
   const mailOptions = {
     from: {
-      name: "Sistema de Autenticación",
+      name: "CineLista",
       address: process.env.SENDER_EMAIL,
     },
     to: email,
-    subject: "Restablecer Contraseña - Acción Requerida",
+    subject: "CineLista - Restablecer Contraseña",
     html: createResetEmailTemplate(resetUrl, username),
   }
 
@@ -164,7 +164,7 @@ export const sendPasswordResetConfirmation = async (email, username) => {
 
   const mailOptions = {
     from: {
-      name: "Sistema de Autenticación",
+      name: "CineLista",
       address: process.env.SENDER_EMAIL,
     },
     to: email,
