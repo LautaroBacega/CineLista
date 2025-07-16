@@ -13,7 +13,7 @@ export default function Header() {
       <div className="flex justify-between items-center max-w-6xl mx-auto p-4">
         <Link to="/" className="group">
           <h1 className="font-bold text-2xl bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent group-hover:from-purple-400 group-hover:to-blue-500 transition-all duration-300">
-            Autenticación
+            CineLista
           </h1>
         </Link>
 

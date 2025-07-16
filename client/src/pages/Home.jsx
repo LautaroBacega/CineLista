@@ -131,14 +131,11 @@ export default function Home() {
         <header className="max-w-6xl mx-auto px-4 py-16 text-center">
           <div className="mb-8">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-              Encuentra{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Películas
-              </span>{" "}
-              que Amarás
+              Descubrí. Creá. Compartí. {" "}
+              
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Descubre tu próxima película favorita sin complicaciones
+              Creá y comparti tus listas y películas favoritas!
             </p>
           </div>
 
@@ -146,7 +143,7 @@ export default function Home() {
         </header>
 
         {/* User Authentication Section */}
-        {!currentUser ? (
+        {/* {!currentUser ? (
           <section className="max-w-4xl mx-auto px-4 mb-16">
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20">
               <div className="text-center mb-8">
@@ -200,7 +197,7 @@ export default function Home() {
               </Link>
             </div>
           </section>
-        )}
+        )} */}
 
         {/* Trending Movies Section */}
         {trendingMovies.length > 0 && (

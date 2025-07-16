@@ -49,7 +49,6 @@ export default function SignUp() {
             <UserPlus className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-slate-800 mb-2">Crear Cuenta</h1>
-          <p className="text-slate-600">Integrá autenticación segura en tus proyectos en minutos.</p>
         </div>
 
         {/* Form Card */}
