@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react"
 import { Camera, User, Mail, Lock, Trash2, LogOut, CheckCircle, AlertCircle } from "lucide-react"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
 import { app } from "../firebase"
+import ConfirmationModal from "../components/ConfirmationModal"
 
 export default function Profile() {
   const { currentUser, updateUser, deleteUser, signOut, loading } = useUser()
@@ -15,6 +16,9 @@ export default function Profile() {
   const [formData, setFormData] = useState({})
   const [updateSuccess, setUpdateSuccess] = useState(false)
   const [error, setError] = useState(null)
+  const [showUpdateModal, setShowUpdateModal] = useState(false)
+  const [showSignOutModal, setShowSignOutModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   useEffect(() => {
     if (image) {
@@ -50,27 +54,44 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setShowUpdateModal(true)
+  }
+
+  const confirmUpdate = async () => {
     try {
       setError(null)
       setUpdateSuccess(false)
       await updateUser(currentUser._id, formData)
       setUpdateSuccess(true)
+      setShowUpdateModal(false)
     } catch (error) {
       setError(error.message)
+      setShowUpdateModal(false)
     }
   }
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
+    setShowDeleteModal(true)
+  }
+
+  const confirmDelete = async () => {
     try {
       setError(null)
       await deleteUser(currentUser._id)
+      setShowDeleteModal(false)
     } catch (error) {
       setError(error.message)
+      setShowDeleteModal(false)
     }
   }
 
-  const handleSignOut = async () => {
+  const handleSignOut = () => {
+    setShowSignOutModal(true)
+  }
+
+  const confirmSignOut = async () => {
     await signOut()
+    setShowSignOutModal(false)
   }
 
   return (
@@ -230,6 +251,41 @@ export default function Profile() {
           )}
         </div>
       </div>
+      {/* Confirmation Modals */}
+      <ConfirmationModal
+        isOpen={showUpdateModal}
+        onClose={() => setShowUpdateModal(false)}
+        onConfirm={confirmUpdate}
+        title="Actualizar Perfil"
+        message="¿Estás seguro de que querés actualizar tu información de perfil?"
+        confirmText="Actualizar"
+        cancelText="Cancelar"
+        type="save"
+        loading={loading}
+      />
+
+      <ConfirmationModal
+        isOpen={showSignOutModal}
+        onClose={() => setShowSignOutModal(false)}
+        onConfirm={confirmSignOut}
+        title="Cerrar Sesión"
+        message="¿Estás seguro de que querés cerrar sesión?"
+        confirmText="Cerrar Sesión"
+        cancelText="Cancelar"
+        type="logout"
+      />
+
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmDelete}
+        title="Eliminar Cuenta"
+        message="¿Estás seguro de que querés eliminar tu cuenta? Esta acción no se puede deshacer y perderás todos tus datos."
+        confirmText="Eliminar Cuenta"
+        cancelText="Cancelar"
+        type="delete"
+        loading={loading}
+      />
     </div>
   )
 }

@@ -1,12 +1,9 @@
 "use client"
-
-import React from 'react'
-import { Link } from "react-router-dom"
 import { useUser } from "../hooks/useUser"
 import { TrendingUp, Film } from "lucide-react"
 
 import { useEffect, useState } from "react"
-import Search from "../components/Search.jsx"
+import SearchWithAutocomplete from "../components/SearchWithAutocomplete.jsx"
 import Spinner from "../components/Spinner.jsx"
 import MovieCard from "../components/MovieCard.jsx"
 import { useDebounce } from "react-use"
@@ -131,15 +128,18 @@ export default function Home() {
         <header className="max-w-6xl mx-auto px-4 py-16 text-center">
           <div className="mb-8">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-              Descubrí. Creá. Compartí. {" "}
-              
+              Descubrí. Creá. Compartí.{" "}
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
               Creá y comparti tus listas y películas favoritas!
             </p>
           </div>
 
-          <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <SearchWithAutocomplete
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            onMovieSelect={handleMovieClick}
+          />
         </header>
 
         {/* User Authentication Section */}
