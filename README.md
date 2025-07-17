@@ -1,4 +1,4 @@
-# 🎬 CineLista - Tu Mundo Cinematográfico Personal
+# 🎬 CineLista
 
 <div align="center">
   <img src="client/public/logo.png" alt="CineLista Logo" width="120" height="120">
@@ -309,14 +309,6 @@ DELETE /delete/:id        // Eliminar cuenta
 3. Output directory: `dist`
 4. Variables de entorno de producción
 
-## 🤝 Contribución
-
-1. Fork el proyecto
-2. Crear feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push al branch (`git push origin feature/AmazingFeature`)
-5. Abrir Pull Request
-
 ## 📄 Licencia
 
 Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
@@ -324,21 +316,6 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 ## 👨‍💻 Autor
 
 **Tu Nombre**
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- LinkedIn: [Tu Perfil](https://linkedin.com/in/tu-perfil)
-- Email: tu.email@ejemplo.com
-
-## 🙏 Agradecimientos
-
-- [TMDB](https://www.themoviedb.org/) por la API de películas
-- [Tailwind CSS](https://tailwindcss.com/) por el framework de CSS
-- [Lucide](https://lucide.dev/) por los iconos
-- [React](https://reactjs.org/) por la biblioteca de UI
-- [MongoDB](https://mongodb.com/) por la base de datos
-
----
-
-<div align="center">
-  <p>Hecho con ❤️ y mucho ☕</p>
-  <p>⭐ ¡Dale una estrella si te gustó el proyecto!</p>
-</div>
+- GitHub: https://github.com/LautaroBacega
+- LinkedIn: https://www.linkedin.com/in/lautaro-bacega/
+- Email: lautibacega@gmail.com
