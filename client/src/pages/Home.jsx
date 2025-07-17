@@ -1,7 +1,7 @@
 "use client"
 
 import { useUser } from "../hooks/useUser"
-import { TrendingUp, Film, Sparkles, Users, Star } from "lucide-react"
+import { TrendingUp, Film, Sparkles, Users, Star, Eye } from "lucide-react"
 
 import { useEffect, useState } from "react"
 import SearchWithAutocomplete from "../components/SearchWithAutocomplete.jsx"
@@ -120,6 +120,20 @@ export default function Home() {
     setShowMovieModal(true)
   }
 
+  const handleTrendingMovieClick = async (trendingMovie) => {
+    try {
+      // Fetch full movie details from TMDB using the movie_id
+      const response = await fetch(`${API_BASE_URL}/movie/${trendingMovie.movie_id}`, API_OPTIONS)
+
+      if (response.ok) {
+        const movieDetails = await response.json()
+        handleMovieClick(movieDetails)
+      }
+    } catch (error) {
+      console.error("Error fetching trending movie details:", error)
+    }
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-cinema-neutral-50 via-white to-cinema-neutral-100">
       {/* Background Pattern */}
@@ -197,7 +211,11 @@ export default function Home() {
               <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-cinema-neutral-200 p-8">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
                   {trendingMovies.map((movie, index) => (
-                    <div key={movie.$id} className="group cursor-pointer">
+                    <div
+                      key={movie.$id}
+                      className="group cursor-pointer"
+                      onClick={() => handleTrendingMovieClick(movie)}
+                    >
                       <div className="relative">
                         {/* Ranking Badge */}
                         <div className="absolute -top-3 -left-3 w-8 h-8 bg-gold-gradient text-cinema-blue-800 text-sm font-black rounded-full flex items-center justify-center z-10 shadow-glow">
@@ -207,14 +225,21 @@ export default function Home() {
                         <div className="aspect-[2/3] relative overflow-hidden rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
                           <img
                             src={movie.poster_url || "/placeholder.svg"}
-                            alt={movie.title}
+                            alt={movie.searchTerm}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                          {/* Play Icon Overlay */}
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-lg">
+                              <Eye className="w-6 h-6 text-cinema-red-500" />
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <h3 className="text-sm font-bold text-cinema-neutral-800 group-hover:text-cinema-red-500 transition-colors mt-3 text-center line-clamp-2">
-                        {movie.title}
+                        {movie.searchTerm}
                       </h3>
                     </div>
                   ))}
