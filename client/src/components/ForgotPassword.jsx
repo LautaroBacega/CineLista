@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Mail, ArrowLeft, CheckCircle, AlertCircle } from "lucide-react"
+import { Mail, ArrowLeft, CheckCircle, AlertCircle, Film, Send } from "lucide-react"
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("")
@@ -51,22 +51,34 @@ export default function ForgotPassword() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-md">
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-6">
-              <CheckCircle className="h-8 w-8 text-green-600" />
+      <div className="min-h-screen bg-gradient-to-br from-cinema-neutral-50 via-white to-cinema-neutral-100 flex items-center justify-center p-4">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-hero-pattern opacity-30"></div>
+
+        <div className="relative z-10 w-full max-w-md">
+          <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-cinema-neutral-200 p-8 text-center animate-scale-in">
+            {/* Success Icon */}
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <CheckCircle className="h-10 w-10 text-green-600" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-4">Email Enviado</h1>
-            <p className="text-slate-600 mb-6">{message}</p>
-            <p className="text-sm text-slate-500 mb-6">
+
+            {/* Success Content */}
+            <h1 className="text-2xl font-display font-bold text-cinema-neutral-800 mb-4">¡Email Enviado! 📧</h1>
+
+            <div className="bg-green-50 border border-green-200 rounded-2xl p-6 mb-6">
+              <p className="text-green-800 font-medium">{message}</p>
+            </div>
+
+            <p className="text-cinema-neutral-600 mb-8 leading-relaxed">
               Revisá tu bandeja de entrada y seguí las instrucciones para restablecer tu contraseña.
             </p>
+
+            {/* Back Button */}
             <Link
               to="/sign-in"
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+              className="inline-flex items-center gap-2 bg-cinema-gradient text-white font-semibold px-6 py-3 rounded-xl hover:shadow-cinema-lg transition-all duration-200 transform hover:scale-105"
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={18} />
               Volver al inicio de sesión
             </Link>
           </div>
@@ -76,65 +88,102 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Header */}
+    <div className="min-h-screen bg-gradient-to-br from-cinema-neutral-50 via-white to-cinema-neutral-100 flex items-center justify-center p-4">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-hero-pattern opacity-30"></div>
+
+      <div className="relative z-10 w-full max-w-md">
+        {/* Header Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-4">
-            <Mail className="h-8 w-8 text-white" />
+          {/* Logo */}
+          <div className="w-16 h-16 bg-cinema-gradient rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-cinema">
+            <Film className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-slate-800 mb-2">¿Olvidaste tu contraseña?</h1>
-          <p className="text-slate-600">No te preocupes, te ayudamos a recuperarla.</p>
+
+          {/* Title */}
+          <h1 className="text-3xl font-display font-bold text-cinema-neutral-800 mb-3">¿Olvidaste tu contraseña?</h1>
+          <p className="text-cinema-neutral-600 font-medium">No te preocupes, te ayudamos a recuperarla.</p>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+        <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-cinema-neutral-200 p-8 animate-slide-up">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Input */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                <Mail size={16} />
+            <div className="space-y-3">
+              <label className="text-sm font-semibold text-cinema-neutral-700 flex items-center gap-2">
+                <Mail size={16} className="text-cinema-red-500" />
                 Dirección de Email
               </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Ingresá tu email"
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                required
-              />
-              <p className="text-xs text-slate-500">Te enviaremos un enlace para restablecer tu contraseña.</p>
+              <div className="relative">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="tu@email.com"
+                  className="input-primary pl-12"
+                  required
+                />
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Mail className="h-5 w-5 text-cinema-neutral-400" />
+                </div>
+              </div>
+              <p className="text-xs text-cinema-neutral-500 flex items-center gap-1">
+                <Send size={12} />
+                Te enviaremos un enlace para restablecer tu contraseña.
+              </p>
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+              className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              {loading ? "Enviando..." : "Enviar Enlace de Restablecimiento"}
+              {loading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Enviando...
+                </div>
+              ) : (
+                <div className="flex items-center justify-center gap-2">
+                  <Send size={18} />
+                  Enviar Enlace de Restablecimiento
+                </div>
+              )}
             </button>
           </form>
 
           {/* Back to Sign In */}
-          <div className="mt-6 text-center">
+          <div className="mt-8 text-center">
             <Link
               to="/sign-in"
-              className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors duration-200"
+              className="inline-flex items-center gap-2 text-cinema-neutral-600 hover:text-cinema-red-500 font-medium transition-colors duration-200"
             >
               <ArrowLeft size={16} />
               Volver al inicio de sesión
             </Link>
           </div>
 
-          {/* Messages */}
+          {/* Error Message */}
           {error && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
-              <AlertCircle size={16} className="text-red-600 flex-shrink-0" />
-              <p className="text-red-700 text-sm">{error}</p>
+            <div className="mt-6 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3 animate-slide-down">
+              <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-red-800 font-semibold text-sm">Error al enviar</p>
+                <p className="text-red-700 text-sm">{error}</p>
+              </div>
             </div>
           )}
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-8">
+          <p className="text-cinema-neutral-500 text-sm">
+            ¿Recordaste tu contraseña?{" "}
+            <Link to="/sign-in" className="text-cinema-red-500 hover:text-cinema-red-600 font-semibold">
+              Iniciar Sesión
+            </Link>
+          </p>
         </div>
       </div>
     </div>

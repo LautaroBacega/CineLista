@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { Lock, Eye, EyeOff, CheckCircle, AlertCircle } from "lucide-react"
+import { Lock, Eye, EyeOff, CheckCircle, AlertCircle, Shield, Key } from "lucide-react"
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams()
@@ -122,10 +122,13 @@ export default function ResetPassword() {
 
   if (checkingToken) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-cinema-neutral-50 via-white to-cinema-neutral-100 flex items-center justify-center p-4">
         <div className="text-center">
-          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-600">Verificando token...</p>
+          <div className="w-16 h-16 bg-cinema-gradient rounded-2xl flex items-center justify-center mx-auto mb-6 animate-pulse">
+            <Shield className="h-8 w-8 text-white" />
+          </div>
+          <div className="w-8 h-8 border-4 border-cinema-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cinema-neutral-600 font-medium">Verificando token de seguridad...</p>
         </div>
       </div>
     )
@@ -133,18 +136,17 @@ export default function ResetPassword() {
 
   if (!tokenValid) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-cinema-neutral-50 via-white to-cinema-neutral-100 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-6">
-              <AlertCircle className="h-8 w-8 text-red-600" />
+          <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-cinema-neutral-200 p-8 text-center animate-scale-in">
+            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <AlertCircle className="h-10 w-10 text-red-600" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-4">Token Inválido</h1>
-            <p className="text-slate-600 mb-6">{error}</p>
-            <button
-              onClick={() => navigate("/forgot-password")}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
-            >
+            <h1 className="text-2xl font-display font-bold text-cinema-neutral-800 mb-4">Token Inválido</h1>
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-6 mb-6">
+              <p className="text-red-800 font-medium">{error}</p>
+            </div>
+            <button onClick={() => navigate("/forgot-password")} className="btn-primary w-full">
               Solicitar Nuevo Enlace
             </button>
           </div>
@@ -155,15 +157,22 @@ export default function ResetPassword() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-cinema-neutral-50 via-white to-cinema-neutral-100 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-6">
-              <CheckCircle className="h-8 w-8 text-green-600" />
+          <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-cinema-neutral-200 p-8 text-center animate-scale-in">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <CheckCircle className="h-10 w-10 text-green-600" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-4">¡Contraseña Restablecida!</h1>
-            <p className="text-slate-600 mb-6">{message}</p>
-            <p className="text-sm text-slate-500">Serás redirigido al inicio de sesión en unos segundos...</p>
+            <h1 className="text-2xl font-display font-bold text-cinema-neutral-800 mb-4">
+              ¡Contraseña Restablecida! 🎉
+            </h1>
+            <div className="bg-green-50 border border-green-200 rounded-2xl p-6 mb-6">
+              <p className="text-green-800 font-medium">{message}</p>
+            </div>
+            <div className="flex items-center justify-center gap-2 text-cinema-neutral-600">
+              <div className="w-2 h-2 bg-cinema-red-500 rounded-full animate-pulse"></div>
+              <p className="text-sm font-medium">Redirigiendo al inicio de sesión...</p>
+            </div>
           </div>
         </div>
       </div>
@@ -171,24 +180,29 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-cinema-neutral-50 via-white to-cinema-neutral-100 flex items-center justify-center p-4">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-hero-pattern opacity-30"></div>
+
+      <div className="relative z-10 w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-4">
-            <Lock className="h-8 w-8 text-white" />
+          <div className="w-16 h-16 bg-cinema-gradient rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-cinema">
+            <Key className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-slate-800 mb-2">Nueva Contraseña</h1>
-          <p className="text-slate-600">Ingresá tu nueva contraseña para completar el restablecimiento.</p>
+          <h1 className="text-3xl font-display font-bold text-cinema-neutral-800 mb-3">Nueva Contraseña</h1>
+          <p className="text-cinema-neutral-600 font-medium">
+            Ingresá tu nueva contraseña para completar el restablecimiento.
+          </p>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+        <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-cinema-neutral-200 p-8 animate-slide-up">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Password Input */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                <Lock size={16} />
+            <div className="space-y-3">
+              <label className="text-sm font-semibold text-cinema-neutral-700 flex items-center gap-2">
+                <Lock size={16} className="text-cinema-red-500" />
                 Nueva Contraseña
               </label>
               <div className="relative">
@@ -197,15 +211,15 @@ export default function ResetPassword() {
                   id="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Ingresá tu nueva contraseña"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Mínimo 6 caracteres"
+                  className="input-primary pr-12"
                   required
                   minLength="6"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-cinema-neutral-400 hover:text-cinema-red-500 transition-colors"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -213,9 +227,9 @@ export default function ResetPassword() {
             </div>
 
             {/* Confirm Password Input */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                <Lock size={16} />
+            <div className="space-y-3">
+              <label className="text-sm font-semibold text-cinema-neutral-700 flex items-center gap-2">
+                <Shield size={16} className="text-cinema-blue-800" />
                 Confirmar Contraseña
               </label>
               <div className="relative">
@@ -224,15 +238,15 @@ export default function ResetPassword() {
                   id="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  placeholder="Confirmá tu nueva contraseña"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Repetí tu nueva contraseña"
+                  className="input-primary pr-12"
                   required
                   minLength="6"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-cinema-neutral-400 hover:text-cinema-blue-800 transition-colors"
                 >
                   {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -240,11 +254,21 @@ export default function ResetPassword() {
             </div>
 
             {/* Password Requirements */}
-            <div className="text-xs text-slate-500 space-y-1">
-              <p>La contraseña debe:</p>
-              <ul className="list-disc list-inside space-y-1 ml-2">
-                <li>Tener al menos 6 caracteres</li>
-                <li>Ser diferente a tu contraseña anterior</li>
+            <div className="bg-cinema-neutral-50 border border-cinema-neutral-200 rounded-2xl p-4">
+              <p className="text-sm font-semibold text-cinema-neutral-700 mb-2">Requisitos de contraseña:</p>
+              <ul className="text-xs text-cinema-neutral-600 space-y-1">
+                <li className="flex items-center gap-2">
+                  <div
+                    className={`w-2 h-2 rounded-full ${formData.password.length >= 6 ? "bg-green-500" : "bg-cinema-neutral-300"}`}
+                  ></div>
+                  Al menos 6 caracteres
+                </li>
+                <li className="flex items-center gap-2">
+                  <div
+                    className={`w-2 h-2 rounded-full ${formData.password === formData.confirmPassword && formData.password ? "bg-green-500" : "bg-cinema-neutral-300"}`}
+                  ></div>
+                  Las contraseñas deben coincidir
+                </li>
               </ul>
             </div>
 
@@ -252,17 +276,30 @@ export default function ResetPassword() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+              className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              {loading ? "Restableciendo..." : "Restablecer Contraseña"}
+              {loading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Restableciendo...
+                </div>
+              ) : (
+                <div className="flex items-center justify-center gap-2">
+                  <Key size={18} />
+                  Restablecer Contraseña
+                </div>
+              )}
             </button>
           </form>
 
-          {/* Messages */}
+          {/* Error Message */}
           {error && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
-              <AlertCircle size={16} className="text-red-600 flex-shrink-0" />
-              <p className="text-red-700 text-sm">{error}</p>
+            <div className="mt-6 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3 animate-slide-down">
+              <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-red-800 font-semibold text-sm">Error</p>
+                <p className="text-red-700 text-sm">{error}</p>
+              </div>
             </div>
           )}
         </div>

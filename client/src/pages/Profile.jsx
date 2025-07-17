@@ -2,7 +2,19 @@
 
 import { useUser } from "../hooks/useUser"
 import { useRef, useState, useEffect } from "react"
-import { Camera, User, Mail, Lock, Trash2, LogOut, CheckCircle, AlertCircle } from "lucide-react"
+import {
+  Camera,
+  User,
+  Mail,
+  Lock,
+  Trash2,
+  LogOut,
+  CheckCircle,
+  AlertCircle,
+  Film,
+  Settings,
+  Shield,
+} from "lucide-react"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
 import { app } from "../firebase"
 import ConfirmationModal from "../components/ConfirmationModal"
@@ -95,20 +107,33 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-cinema-neutral-50 via-white to-cinema-neutral-100 py-8">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-hero-pattern opacity-30"></div>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-800 mb-2">Perfil</h1>
-          <p className="text-slate-600">Gestioná la información de tu cuenta y tus preferencias.</p>
+        <div className="text-center mb-12">
+          <div className="w-16 h-16 bg-cinema-gradient rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-cinema">
+            <Settings className="h-8 w-8 text-white" />
+          </div>
+          <h1 className="text-4xl font-display font-bold text-cinema-neutral-800 mb-3">Mi Perfil</h1>
+          <p className="text-cinema-neutral-600 font-medium text-lg">
+            Gestioná la información de tu cuenta y tus preferencias cinematográficas
+          </p>
         </div>
 
-        {/* Profile Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Profile Picture Section */}
-            <div className="flex flex-col items-center mb-8">
-              <div className="relative group">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Profile Picture Section */}
+          <div className="lg:col-span-1">
+            <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border border-cinema-neutral-200 p-8 text-center">
+              <h2 className="text-xl font-display font-bold text-cinema-neutral-800 mb-6 flex items-center justify-center gap-2">
+                <Camera className="w-5 h-5 text-cinema-red-500" />
+                Foto de Perfil
+              </h2>
+
+              {/* Profile Picture */}
+              <div className="relative group mb-6">
                 <input
                   type="file"
                   ref={fileRef}
@@ -116,141 +141,206 @@ export default function Profile() {
                   accept="image/*"
                   onChange={(e) => setImage(e.target.files[0])}
                 />
-                <img
-                  src={formData.profilePicture || currentUser.profilePicture}
-                  alt="profile"
-                  className="h-24 w-24 rounded-full object-cover ring-4 ring-blue-100 group-hover:ring-blue-200 transition-all duration-200 cursor-pointer"
-                  onClick={() => fileRef.current.click()}
-                />
-                <div
-                  className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
-                  onClick={() => fileRef.current.click()}
-                >
-                  <Camera className="h-6 w-6 text-white" />
+                <div className="relative w-32 h-32 mx-auto">
+                  <img
+                    src={formData.profilePicture || currentUser.profilePicture}
+                    alt="profile"
+                    className="w-full h-full rounded-2xl object-cover ring-4 ring-cinema-neutral-200 group-hover:ring-cinema-red-500 transition-all duration-300 cursor-pointer shadow-lg"
+                    onClick={() => fileRef.current.click()}
+                  />
+                  <div
+                    className="absolute inset-0 bg-black bg-opacity-50 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+                    onClick={() => fileRef.current.click()}
+                  >
+                    <Camera className="h-8 w-8 text-white" />
+                  </div>
+                  {/* Status Indicator */}
+                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-cinema-gold-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                    <Film className="w-4 h-4 text-white" />
+                  </div>
                 </div>
               </div>
 
               {/* Upload Status */}
-              <div className="mt-3 text-center">
+              <div className="mb-6">
                 {imageError ? (
-                  <div className="flex items-center gap-2 text-red-600">
-                    <AlertCircle size={16} />
-                    <span className="text-sm">Error cargando imagen (max 2MB)</span>
+                  <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-center gap-3">
+                    <AlertCircle size={20} className="text-red-600 flex-shrink-0" />
+                    <div className="text-left">
+                      <p className="text-red-800 font-semibold text-sm">Error al cargar imagen</p>
+                      <p className="text-red-600 text-xs">Máximo 2MB permitido</p>
+                    </div>
                   </div>
                 ) : imagePercent > 0 && imagePercent < 100 ? (
-                  <div className="flex items-center gap-2 text-blue-600">
-                    <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                    <span className="text-sm">Cargando: {imagePercent}%</span>
+                  <div className="bg-cinema-blue-50 border border-cinema-blue-200 rounded-2xl p-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-5 h-5 border-2 border-cinema-blue-800 border-t-transparent rounded-full animate-spin"></div>
+                      <span className="text-cinema-blue-800 font-semibold text-sm">Cargando imagen...</span>
+                    </div>
+                    <div className="w-full bg-cinema-blue-200 rounded-full h-2">
+                      <div
+                        className="bg-cinema-blue-800 h-2 rounded-full transition-all duration-300"
+                        style={{ width: `${imagePercent}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-cinema-blue-700 text-xs mt-1">{imagePercent}% completado</p>
                   </div>
                 ) : imagePercent === 100 ? (
-                  <div className="flex items-center gap-2 text-green-600">
-                    <CheckCircle size={16} />
-                    <span className="text-sm">Imagen subida correctamente</span>
+                  <div className="bg-green-50 border border-green-200 rounded-2xl p-4 flex items-center gap-3">
+                    <CheckCircle size={20} className="text-green-600" />
+                    <div>
+                      <p className="text-green-800 font-semibold text-sm">¡Imagen subida!</p>
+                      <p className="text-green-600 text-xs">Lista para guardar cambios</p>
+                    </div>
                   </div>
                 ) : (
-                  <span className="text-sm text-slate-500">Hacé click para cambiar la foto de perfil.</span>
+                  <p className="text-cinema-neutral-500 text-sm">
+                    Hacé click en la imagen para cambiar tu foto de perfil
+                  </p>
                 )}
               </div>
-            </div>
 
-            {/* Form Fields */}
-            <div className="space-y-6">
-              {/* Username */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                  <User size={16} />
-                  Nombre
-                </label>
-                <input
-                  defaultValue={currentUser.username}
-                  type="text"
-                  id="username"
-                  placeholder="Nombre"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Email */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                  <Mail size={16} />
-                  Email
-                </label>
-                <input
-                  defaultValue={currentUser.email}
-                  type="email"
-                  id="email"
-                  placeholder="Email"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Password */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                  <Lock size={16} />
-                  Contraseña Nueva
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  placeholder="Dejá en blanco para mantener la contraseña actual."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  onChange={handleChange}
-                />
+              {/* User Info */}
+              <div className="bg-cinema-neutral-50 rounded-2xl p-4">
+                <h3 className="font-display font-bold text-cinema-neutral-800 mb-2">{currentUser.username}</h3>
+                <p className="text-cinema-neutral-600 text-sm mb-3">{currentUser.email}</p>
+                <div className="flex items-center justify-center gap-2 text-cinema-gold-600">
+                  <Film className="w-4 h-4" />
+                  <span className="text-xs font-semibold">Cinéfilo Activo</span>
+                </div>
               </div>
             </div>
-
-            {/* Update Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
-            >
-              {loading ? "Actualizando..." : "Actualizar Perfil"}
-            </button>
-          </form>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-8 pt-6 border-t border-slate-200">
-            <button
-              onClick={handleSignOut}
-              className="flex items-center justify-center gap-2 px-4 py-2 text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors duration-200"
-            >
-              <LogOut size={16} />
-              Cerrar Sesión
-            </button>
-
-            <button
-              onClick={handleDeleteAccount}
-              className="flex items-center justify-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors duration-200"
-            >
-              <Trash2 size={16} />
-              Eliminar Cuenta
-            </button>
           </div>
 
-          {/* Status Messages */}
-          {error && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-700 text-sm text-center">{error}</p>
-            </div>
-          )}
+          {/* Form Section */}
+          <div className="lg:col-span-2">
+            <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border border-cinema-neutral-200 p-8">
+              <h2 className="text-2xl font-display font-bold text-cinema-neutral-800 mb-8 flex items-center gap-3">
+                <User className="w-6 h-6 text-cinema-red-500" />
+                Información Personal
+              </h2>
 
-          {updateSuccess && (
-            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-              <p className="text-green-700 text-sm text-center flex items-center justify-center gap-2">
-                <CheckCircle size={16} />
-                Perfil actualizado correctamente!
-              </p>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Username */}
+                <div className="space-y-3">
+                  <label className="text-sm font-semibold text-cinema-neutral-700 flex items-center gap-2">
+                    <User size={16} className="text-cinema-red-500" />
+                    Nombre de Usuario
+                  </label>
+                  <input
+                    defaultValue={currentUser.username}
+                    type="text"
+                    id="username"
+                    placeholder="Tu nombre de usuario"
+                    className="input-primary"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                {/* Email */}
+                <div className="space-y-3">
+                  <label className="text-sm font-semibold text-cinema-neutral-700 flex items-center gap-2">
+                    <Mail size={16} className="text-cinema-blue-800" />
+                    Dirección de Email
+                  </label>
+                  <input
+                    defaultValue={currentUser.email}
+                    type="email"
+                    id="email"
+                    placeholder="tu@email.com"
+                    className="input-primary"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                {/* Password */}
+                <div className="space-y-3">
+                  <label className="text-sm font-semibold text-cinema-neutral-700 flex items-center gap-2">
+                    <Lock size={16} className="text-cinema-gold-600" />
+                    Nueva Contraseña
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    placeholder="Dejá en blanco para mantener la actual"
+                    className="input-primary"
+                    onChange={handleChange}
+                  />
+                  <p className="text-xs text-cinema-neutral-500 flex items-center gap-1">
+                    <Shield size={12} />
+                    Solo completá si querés cambiar tu contraseña
+                  </p>
+                </div>
+
+                {/* Update Button */}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  {loading ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Actualizando...
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center gap-2">
+                      <CheckCircle size={18} />
+                      Actualizar Perfil
+                    </div>
+                  )}
+                </button>
+              </form>
+
+              {/* Action Buttons */}
+              <div className="mt-8 pt-8 border-t border-cinema-neutral-200">
+                <h3 className="text-lg font-display font-bold text-cinema-neutral-800 mb-6">Acciones de Cuenta</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <button
+                    onClick={handleSignOut}
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-cinema-neutral-100 hover:bg-cinema-neutral-200 text-cinema-neutral-700 hover:text-cinema-neutral-800 rounded-xl font-semibold transition-all duration-200"
+                  >
+                    <LogOut size={18} />
+                    Cerrar Sesión
+                  </button>
+
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 rounded-xl font-semibold transition-all duration-200 border border-red-200"
+                  >
+                    <Trash2 size={18} />
+                    Eliminar Cuenta
+                  </button>
+                </div>
+              </div>
+
+              {/* Status Messages */}
+              {error && (
+                <div className="mt-6 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3 animate-slide-down">
+                  <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-red-800 font-semibold text-sm">Error</p>
+                    <p className="text-red-700 text-sm">{error}</p>
+                  </div>
+                </div>
+              )}
+
+              {updateSuccess && (
+                <div className="mt-6 bg-green-50 border border-green-200 rounded-2xl p-4 flex items-center gap-3 animate-slide-down">
+                  <CheckCircle size={20} className="text-green-600" />
+                  <div>
+                    <p className="text-green-800 font-semibold text-sm">¡Perfil actualizado!</p>
+                    <p className="text-green-700 text-sm">Tus cambios se guardaron correctamente</p>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
+
       {/* Confirmation Modals */}
       <ConfirmationModal
         isOpen={showUpdateModal}

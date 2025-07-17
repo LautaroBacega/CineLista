@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { SearchIcon, X, Film } from "lucide-react"
+import { Search, X, Film, Star, Calendar, Loader2 } from "lucide-react"
 import { useDebounce } from "react-use"
 
 const API_BASE_URL = "https://api.themoviedb.org/3"
@@ -119,83 +119,94 @@ const SearchWithAutocomplete = ({ searchTerm, setSearchTerm, onMovieSelect }) =>
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto mb-8 relative">
+    <div className="w-full max-w-3xl mx-auto mb-12 relative">
+      {/* Search Container */}
       <div className="relative group">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <SearchIcon className="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
+        {/* Background Glow Effect */}
+        <div className="absolute -inset-1 bg-cinema-gradient rounded-2xl opacity-0 group-focus-within:opacity-20 blur-xl transition-all duration-500"></div>
+
+        {/* Search Input */}
+        <div className="relative bg-white rounded-2xl shadow-xl border-2 border-cinema-neutral-200 group-focus-within:border-cinema-red-500 transition-all duration-300">
+          <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+            <Search className="h-6 w-6 text-cinema-neutral-400 group-focus-within:text-cinema-red-500 transition-colors duration-300" />
+          </div>
+
+          <input
+            ref={searchRef}
+            type="text"
+            placeholder="Descubrí tu próxima película favorita..."
+            value={searchTerm}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            className="w-full pl-16 pr-16 py-5 text-lg font-medium bg-transparent border-none rounded-2xl focus:outline-none focus:ring-0 text-cinema-neutral-800 placeholder-cinema-neutral-400"
+          />
+
+          {/* Clear button */}
+          {searchTerm && (
+            <button
+              onClick={clearSearch}
+              className="absolute inset-y-0 right-0 pr-6 flex items-center text-cinema-neutral-400 hover:text-cinema-red-500 transition-colors duration-200"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          )}
         </div>
 
-        <input
-          ref={searchRef}
-          type="text"
-          placeholder="Buscar películas..."
-          value={searchTerm}
-          onChange={handleInputChange}
-          onFocus={handleInputFocus}
-          className="w-full pl-12 pr-12 py-4 text-lg bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-200 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white"
-        />
-
-        {/* Clear button */}
-        {searchTerm && (
-          <button
-            onClick={clearSearch}
-            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        )}
-
-        {/* Decorative gradient border */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-focus-within:opacity-100 transition-opacity -z-10 blur-xl"></div>
+        {/* Search Hint */}
+        <p className="text-center text-sm text-cinema-neutral-500 mt-3 font-medium">
+          Escribí al menos 3 caracteres para ver sugerencias
+        </p>
       </div>
 
       {/* Suggestions Dropdown */}
       {showSuggestions && (
         <div
           ref={suggestionsRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-50 max-h-80 overflow-y-auto"
+          className="absolute top-full left-0 right-0 mt-4 bg-white border border-cinema-neutral-200 rounded-2xl shadow-2xl z-50 max-h-96 overflow-y-auto animate-slide-down"
         >
           {loading && (
-            <div className="flex items-center justify-center py-4">
-              <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              <span className="ml-2 text-gray-600 dark:text-gray-400">Buscando...</span>
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-6 h-6 text-cinema-red-500 animate-spin mr-3" />
+              <span className="text-cinema-neutral-600 font-medium">Buscando películas...</span>
             </div>
           )}
 
           {error && (
-            <div className="p-4 text-center">
-              <div className="flex items-center justify-center text-red-500 mb-2">
-                <Film className="w-5 h-5 mr-2" />
-                <span className="text-sm">Error al buscar películas</span>
+            <div className="p-6 text-center">
+              <div className="flex items-center justify-center text-cinema-red-500 mb-3">
+                <Film className="w-6 h-6 mr-2" />
+                <span className="font-semibold">Error al buscar películas</span>
               </div>
-              <p className="text-xs text-gray-500">{error}</p>
+              <p className="text-sm text-cinema-neutral-500">{error}</p>
             </div>
           )}
 
           {!loading && !error && suggestions.length === 0 && searchTerm.length >= 3 && (
-            <div className="p-4 text-center">
-              <div className="flex items-center justify-center text-gray-500 mb-2">
-                <Film className="w-5 h-5 mr-2" />
-                <span className="text-sm">No se encontraron películas</span>
+            <div className="p-8 text-center">
+              <div className="w-16 h-16 bg-cinema-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Film className="w-8 h-8 text-cinema-neutral-400" />
               </div>
-              <p className="text-xs text-gray-400">Intentá con otro término de búsqueda</p>
+              <h3 className="font-semibold text-cinema-neutral-700 mb-2">No se encontraron películas</h3>
+              <p className="text-sm text-cinema-neutral-500">Intentá con otro término de búsqueda</p>
             </div>
           )}
 
           {!loading &&
             !error &&
-            suggestions.map((movie) => (
+            suggestions.map((movie, index) => (
               <div
                 key={movie.id}
                 onClick={() => handleSuggestionClick(movie)}
-                className="flex items-center p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors border-b border-gray-100 dark:border-gray-700 last:border-b-0"
+                className={`flex items-center p-4 hover:bg-cinema-neutral-50 cursor-pointer transition-all duration-200 group ${
+                  index !== suggestions.length - 1 ? "border-b border-cinema-neutral-100" : ""
+                }`}
               >
                 {/* Movie Poster */}
-                <div className="flex-shrink-0 w-12 h-16 mr-3">
+                <div className="flex-shrink-0 w-16 h-20 mr-4 relative overflow-hidden rounded-lg shadow-md group-hover:shadow-lg transition-shadow duration-200">
                   <img
                     src={movie.poster_path ? `https://image.tmdb.org/t/p/w92${movie.poster_path}` : "/no-movie.png"}
                     alt={movie.title}
-                    className="w-full h-full object-cover rounded-md shadow-sm"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
                       e.target.src = "/no-movie.png"
                     }}
@@ -204,36 +215,39 @@ const SearchWithAutocomplete = ({ searchTerm, setSearchTerm, onMovieSelect }) =>
 
                 {/* Movie Info */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 dark:text-white truncate">{movie.title}</h3>
-                  <div className="flex items-center gap-2 mt-1">
+                  <h3 className="font-bold text-cinema-neutral-800 group-hover:text-cinema-red-500 transition-colors duration-200 line-clamp-2 mb-2">
+                    {movie.title}
+                  </h3>
+
+                  <div className="flex items-center gap-4 mb-2">
                     {movie.release_date && (
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
-                        {new Date(movie.release_date).getFullYear()}
-                      </span>
+                      <div className="flex items-center gap-1 text-cinema-neutral-500">
+                        <Calendar className="w-4 h-4" />
+                        <span className="text-sm font-medium">{new Date(movie.release_date).getFullYear()}</span>
+                      </div>
                     )}
+
                     {movie.vote_average > 0 && (
-                      <>
-                        <span className="text-gray-400">•</span>
-                        <div className="flex items-center gap-1">
-                          <span className="text-yellow-500">⭐</span>
-                          <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {movie.vote_average.toFixed(1)}
-                          </span>
-                        </div>
-                      </>
+                      <div className="flex items-center gap-1">
+                        <Star className="w-4 h-4 text-cinema-gold-500 fill-current" />
+                        <span className="text-sm font-semibold text-cinema-neutral-600">
+                          {movie.vote_average.toFixed(1)}
+                        </span>
+                      </div>
                     )}
                   </div>
+
                   {movie.overview && (
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
-                      {movie.overview.length > 100 ? `${movie.overview.substring(0, 100)}...` : movie.overview}
+                    <p className="text-sm text-cinema-neutral-500 line-clamp-2 leading-relaxed">
+                      {movie.overview.length > 120 ? `${movie.overview.substring(0, 120)}...` : movie.overview}
                     </p>
                   )}
                 </div>
 
                 {/* Arrow indicator */}
-                <div className="flex-shrink-0 ml-2">
-                  <div className="w-6 h-6 flex items-center justify-center text-gray-400">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex-shrink-0 ml-4">
+                  <div className="w-8 h-8 flex items-center justify-center text-cinema-neutral-300 group-hover:text-cinema-red-500 transition-colors duration-200">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>

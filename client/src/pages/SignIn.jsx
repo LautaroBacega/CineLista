@@ -1,15 +1,15 @@
 "use client"
 
-import React from 'react'
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { LogIn, Mail, Lock } from "lucide-react"
+import { LogIn, Mail, Lock, Film, Eye, EyeOff } from "lucide-react"
 import { useUser } from "../hooks/useUser"
 import OAuth from "../components/OAuth"
 
 export default function SignIn() {
   const [formData, setFormData] = useState({})
   const [error, setError] = useState(null)
+  const [showPassword, setShowPassword] = useState(false)
   const { signIn, loading } = useUser()
   const navigate = useNavigate()
 
@@ -29,55 +29,85 @@ export default function SignIn() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-cinema-neutral-50 via-white to-cinema-neutral-100 flex items-center justify-center p-4">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-hero-pattern opacity-30"></div>
+
+      <div className="relative z-10 w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mb-4">
-            <LogIn className="h-8 w-8 text-white" />
+          {/* Logo */}
+          <div className="relative mb-6">
+            <div className="w-20 h-20 bg-cinema-gradient rounded-3xl flex items-center justify-center mx-auto shadow-cinema-lg">
+              <Film className="h-10 w-10 text-white" />
+            </div>
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-cinema-gold-500 rounded-full animate-glow-pulse"></div>
           </div>
-          <h1 className="text-3xl font-bold text-slate-800 mb-2">¡Bienvenido!</h1>
-          <p className="text-slate-600">Iniciá sesión en tu cuenta para continuar.</p>
+
+          {/* Welcome Text */}
+          <h1 className="text-4xl font-display font-bold text-cinema-neutral-800 mb-3">¡Bienvenido de vuelta! 🎬</h1>
+          <p className="text-cinema-neutral-600 font-medium text-lg">
+            Iniciá sesión para continuar tu experiencia cinematográfica
+          </p>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+        <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-cinema-neutral-200 p-8 animate-slide-up">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Input */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                <Mail size={16} />
+            <div className="space-y-3">
+              <label className="text-sm font-semibold text-cinema-neutral-700 flex items-center gap-2">
+                <Mail size={16} className="text-cinema-red-500" />
                 Email
               </label>
-              <input
-                type="email"
-                placeholder="Email"
-                id="email"
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                onChange={handleChange}
-              />
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="tu@email.com"
+                  id="email"
+                  className="input-primary pl-12"
+                  onChange={handleChange}
+                  required
+                />
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Mail className="h-5 w-5 text-cinema-neutral-400" />
+                </div>
+              </div>
             </div>
 
             {/* Password Input */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                <Lock size={16} />
+            <div className="space-y-3">
+              <label className="text-sm font-semibold text-cinema-neutral-700 flex items-center gap-2">
+                <Lock size={16} className="text-cinema-blue-800" />
                 Contraseña
               </label>
-              <input
-                type="password"
-                placeholder="Contraseña"
-                id="password"
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                onChange={handleChange}
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Tu contraseña"
+                  id="password"
+                  className="input-primary pl-12 pr-12"
+                  onChange={handleChange}
+                  required
+                />
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-cinema-neutral-400" />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-cinema-neutral-400 hover:text-cinema-blue-800 transition-colors"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
 
             {/* Forgot Password Link */}
             <div className="text-right">
               <Link
                 to="/forgot-password"
-                className="text-sm text-purple-600 hover:text-purple-700 transition-colors duration-200"
+                className="text-sm text-cinema-red-500 hover:text-cinema-red-600 font-semibold transition-colors duration-200"
               >
                 ¿Olvidaste tu contraseña?
               </Link>
@@ -86,34 +116,85 @@ export default function SignIn() {
             {/* Submit Button */}
             <button
               disabled={loading}
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white p-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+              className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
+              {loading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Iniciando sesión...
+                </div>
+              ) : (
+                <div className="flex items-center justify-center gap-2">
+                  <LogIn size={18} />
+                  Iniciar Sesión
+                </div>
+              )}
             </button>
+
+            {/* Divider */}
+            <div className="relative my-8">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-cinema-neutral-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white text-cinema-neutral-500 font-medium">O continúa con</span>
+              </div>
+            </div>
 
             {/* OAuth */}
             <OAuth />
           </form>
 
-          {/* Sign Up Link */}
-          <div className="mt-6 text-center">
-            <p className="text-slate-600">
-              No tienes una cuenta?{" "}
-              <Link
-                to="/sign-up"
-                className="text-purple-600 hover:text-purple-700 font-semibold transition-colors duration-200"
-              >
-                Registrarme
-              </Link>
-            </p>
-          </div>
-
           {/* Error Message */}
           {error && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-700 text-sm text-center">{error}</p>
+            <div className="mt-6 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3 animate-slide-down">
+              <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-white text-xs font-bold">!</span>
+              </div>
+              <div>
+                <p className="text-red-800 font-semibold text-sm">Error al iniciar sesión</p>
+                <p className="text-red-700 text-sm">{error}</p>
+              </div>
             </div>
           )}
+        </div>
+
+        {/* Sign Up Link */}
+        <div className="text-center mt-8">
+          <p className="text-cinema-neutral-600">
+            ¿No tienes una cuenta?{" "}
+            <Link
+              to="/sign-up"
+              className="text-cinema-red-500 hover:text-cinema-red-600 font-bold transition-colors duration-200"
+            >
+              Registrarme
+            </Link>
+          </p>
+        </div>
+
+        {/* Features Preview */}
+        <div className="mt-12 bg-cinema-gradient rounded-2xl p-6 text-white text-center">
+          <h3 className="font-display font-bold text-lg mb-2">¿Por qué CineLista?</h3>
+          <div className="grid grid-cols-3 gap-4 text-sm">
+            <div>
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <Film className="w-4 h-4" />
+              </div>
+              <p className="font-medium">10K+ Películas</p>
+            </div>
+            <div>
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <LogIn className="w-4 h-4" />
+              </div>
+              <p className="font-medium">Login</p>
+            </div>
+            <div>
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                {/* Placeholder for additional feature icon */}
+              </div>
+              <p className="font-medium">Feature Placeholder</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

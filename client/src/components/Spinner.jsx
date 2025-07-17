@@ -1,23 +1,29 @@
-import React from 'react'
+import { Film } from "lucide-react"
 
 const Spinner = () => {
   return (
-    <div className="flex justify-center items-center py-12">
+    <div className="flex flex-col items-center justify-center py-16">
       <div className="relative">
-        {/* Outer ring */}
-        <div className="w-16 h-16 border-4 border-gray-200 dark:border-gray-700 rounded-full animate-pulse"></div>
+        {/* Outer rotating ring */}
+        <div className="w-20 h-20 border-4 border-cinema-neutral-200 rounded-full animate-spin">
+          <div className="absolute top-0 left-0 w-full h-full border-4 border-transparent border-t-cinema-red-500 border-r-cinema-gold-500 rounded-full animate-spin"></div>
+        </div>
 
-        {/* Spinning ring */}
-        <div className="absolute top-0 left-0 w-16 h-16 border-4 border-transparent border-t-blue-500 border-r-purple-500 rounded-full animate-spin"></div>
-
-        {/* Inner dot */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-ping"></div>
+        {/* Inner film icon */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-10 h-10 bg-cinema-gradient rounded-full flex items-center justify-center shadow-cinema animate-pulse">
+            <Film className="w-5 h-5 text-white" />
+          </div>
+        </div>
       </div>
 
-      <span className="sr-only">Cargando películas...</span>
+      {/* Loading text */}
+      <div className="mt-6 text-center">
+        <p className="text-cinema-neutral-600 font-semibold text-lg">Cargando películas...</p>
+        <p className="text-cinema-neutral-500 text-sm mt-1">Preparando tu experiencia cinematográfica</p>
+      </div>
     </div>
   )
 }
 
 export default Spinner
-

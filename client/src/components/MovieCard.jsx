@@ -1,7 +1,5 @@
 "use client"
-
-import React from 'react'
-import { Star, Heart, Eye, EyeOff, Plus } from "lucide-react"
+import { Star, Heart, Eye, EyeOff, Plus, Calendar } from "lucide-react"
 import { useState } from "react"
 import { useUser } from "../hooks/useUser"
 import { apiInterceptor } from "../utils/apiInterceptor"
@@ -64,30 +62,35 @@ const MovieCard = ({ movie, onMovieClick, userLists = [] }) => {
   return (
     <>
       <div
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-1 relative"
+        className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-cinema-neutral-200 overflow-hidden transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"
         onMouseEnter={() => setShowQuickActions(true)}
         onMouseLeave={() => setShowQuickActions(false)}
       >
-        {/* Imagen del póster */}
+        {/* Poster Container */}
         <div className="relative overflow-hidden" onClick={handleClick}>
-          <img
-            src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : "/no-movie.png"}
-            alt={movie.title}
-            className="w-full h-64 sm:h-72 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
-          />
+          <div className="aspect-[2/3] relative">
+            <img
+              src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : "/no-movie.png"}
+              alt={movie.title}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            />
 
-          {/* Overlay con calificación */}
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+
+          {/* Rating Badge */}
           {movie.vote_average && (
-            <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-sm rounded-full px-2 py-1 flex items-center gap-1">
-              <Star className="w-4 h-4 text-yellow-400 fill-current" />
-              <span className="text-white text-sm font-medium">{movie.vote_average.toFixed(1)}</span>
+            <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-sm rounded-xl px-3 py-2 flex items-center gap-2 shadow-lg">
+              <Star className="w-4 h-4 text-cinema-gold-500 fill-current" />
+              <span className="text-white text-sm font-bold">{movie.vote_average.toFixed(1)}</span>
             </div>
           )}
 
           {/* Quick Actions Overlay */}
           {showQuickActions && (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="flex gap-2">
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <div className="flex gap-3">
                 {/* Favoritas */}
                 <button
                   onClick={(e) => {
@@ -99,14 +102,14 @@ const MovieCard = ({ movie, onMovieClick, userLists = [] }) => {
                   disabled={
                     !defaultLists.favorites || isMovieInList(defaultLists.favorites) || addingToList === "Favoritas"
                   }
-                  className={`p-2 rounded-full transition-all duration-200 ${
+                  className={`p-3 rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg ${
                     isMovieInList(defaultLists.favorites)
-                      ? "bg-red-500 text-white"
-                      : "bg-white/90 hover:bg-red-500 text-gray-700 hover:text-white"
+                      ? "bg-cinema-red-500 text-white shadow-cinema"
+                      : "bg-white/90 hover:bg-cinema-red-500 text-cinema-red-500 hover:text-white"
                   } ${addingToList === "Favoritas" ? "animate-pulse" : ""}`}
                   title={isMovieInList(defaultLists.favorites) ? "En Favoritas" : "Agregar a Favoritas"}
                 >
-                  <Heart size={16} className={isMovieInList(defaultLists.favorites) ? "fill-current" : ""} />
+                  <Heart size={18} className={isMovieInList(defaultLists.favorites) ? "fill-current" : ""} />
                 </button>
 
                 {/* Aún no he visto */}
@@ -122,14 +125,14 @@ const MovieCard = ({ movie, onMovieClick, userLists = [] }) => {
                     isMovieInList(defaultLists.watchLater) ||
                     addingToList === "Aún no he visto"
                   }
-                  className={`p-2 rounded-full transition-all duration-200 ${
+                  className={`p-3 rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg ${
                     isMovieInList(defaultLists.watchLater)
-                      ? "bg-blue-500 text-white"
-                      : "bg-white/90 hover:bg-blue-500 text-gray-700 hover:text-white"
+                      ? "bg-cinema-blue-800 text-white"
+                      : "bg-white/90 hover:bg-cinema-blue-800 text-cinema-blue-800 hover:text-white"
                   } ${addingToList === "Aún no he visto" ? "animate-pulse" : ""}`}
                   title={isMovieInList(defaultLists.watchLater) ? "En lista para ver" : "Quiero verla"}
                 >
-                  <Eye size={16} />
+                  <Eye size={18} />
                 </button>
 
                 {/* Ya vistas */}
@@ -143,14 +146,14 @@ const MovieCard = ({ movie, onMovieClick, userLists = [] }) => {
                   disabled={
                     !defaultLists.watched || isMovieInList(defaultLists.watched) || addingToList === "Ya vistas"
                   }
-                  className={`p-2 rounded-full transition-all duration-200 ${
+                  className={`p-3 rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg ${
                     isMovieInList(defaultLists.watched)
                       ? "bg-green-500 text-white"
-                      : "bg-white/90 hover:bg-green-500 text-gray-700 hover:text-white"
+                      : "bg-white/90 hover:bg-green-500 text-green-500 hover:text-white"
                   } ${addingToList === "Ya vistas" ? "animate-pulse" : ""}`}
                   title={isMovieInList(defaultLists.watched) ? "Ya vista" : "Marcar como vista"}
                 >
-                  <EyeOff size={16} />
+                  <EyeOff size={18} />
                 </button>
 
                 {/* Más opciones */}
@@ -159,47 +162,64 @@ const MovieCard = ({ movie, onMovieClick, userLists = [] }) => {
                     e.stopPropagation()
                     handleClick()
                   }}
-                  className="p-2 rounded-full bg-white/90 hover:bg-purple-500 text-gray-700 hover:text-white transition-all duration-200"
+                  className="p-3 rounded-xl bg-white/90 hover:bg-cinema-gold-500 text-cinema-gold-600 hover:text-white transition-all duration-200 transform hover:scale-110 shadow-lg"
                   title="Ver detalles y más opciones"
                 >
-                  <Plus size={16} />
+                  <Plus size={18} />
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* Contenido de la tarjeta */}
-        <div className="p-4" onClick={handleClick}>
-          <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+        {/* Movie Info */}
+        <div className="p-6" onClick={handleClick}>
+          <h3 className="font-display font-bold text-lg text-cinema-neutral-800 group-hover:text-cinema-red-500 transition-colors duration-200 line-clamp-2 mb-3">
             {movie.title}
           </h3>
 
-          <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
-            <div className="flex items-center gap-2">
-              <span className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-md text-xs font-medium uppercase">
-                {movie.original_language}
-              </span>
+          <div className="flex items-center justify-between text-sm mb-4">
+            <div className="flex items-center gap-3">
+              {movie.release_date && (
+                <div className="flex items-center gap-1 text-cinema-neutral-500">
+                  <Calendar className="w-4 h-4" />
+                  <span className="font-medium">{movie.release_date.split("-")[0]}</span>
+                </div>
+              )}
 
-              <span className="text-gray-400">•</span>
-
-              <span className="font-medium">{movie.release_date ? movie.release_date.split("-")[0] : "N/A"}</span>
+              <div className="flex items-center gap-1">
+                <span className="px-2 py-1 bg-cinema-neutral-100 text-cinema-neutral-600 rounded-lg text-xs font-semibold uppercase tracking-wide">
+                  {movie.original_language}
+                </span>
+              </div>
             </div>
+          </div>
+
+          {/* Status Indicators */}
+          <div className="flex items-center gap-2">
+            {isMovieInList(defaultLists.favorites) && (
+              <div className="flex items-center gap-1 px-2 py-1 bg-cinema-red-100 text-cinema-red-600 rounded-lg text-xs font-medium">
+                <Heart className="w-3 h-3 fill-current" />
+                <span>Favorita</span>
+              </div>
+            )}
+            {isMovieInList(defaultLists.watchLater) && (
+              <div className="flex items-center gap-1 px-2 py-1 bg-cinema-blue-100 text-cinema-blue-800 rounded-lg text-xs font-medium">
+                <Eye className="w-3 h-3" />
+                <span>Por ver</span>
+              </div>
+            )}
+            {isMovieInList(defaultLists.watched) && (
+              <div className="flex items-center gap-1 px-2 py-1 bg-green-100 text-green-600 rounded-lg text-xs font-medium">
+                <EyeOff className="w-3 h-3" />
+                <span>Vista</span>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Indicadores de estado en la esquina inferior */}
-        <div className="absolute bottom-2 right-2 flex gap-1">
-          {isMovieInList(defaultLists.favorites) && (
-            <div className="w-2 h-2 bg-red-500 rounded-full" title="En Favoritas"></div>
-          )}
-          {isMovieInList(defaultLists.watchLater) && (
-            <div className="w-2 h-2 bg-blue-500 rounded-full" title="Quiero verla"></div>
-          )}
-          {isMovieInList(defaultLists.watched) && (
-            <div className="w-2 h-2 bg-green-500 rounded-full" title="Ya vista"></div>
-          )}
-        </div>
+        {/* Hover Glow Effect */}
+        <div className="absolute inset-0 rounded-2xl bg-cinema-gradient opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"></div>
       </div>
 
       {/* Auth Required Modal */}
