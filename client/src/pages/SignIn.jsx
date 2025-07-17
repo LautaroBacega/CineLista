@@ -41,7 +41,6 @@ export default function SignIn() {
             <div className="w-20 h-20 bg-cinema-gradient rounded-3xl flex items-center justify-center mx-auto shadow-cinema-lg">
               <Film className="h-10 w-10 text-white" />
             </div>
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-cinema-gold-500 rounded-full animate-glow-pulse"></div>
           </div>
 
           {/* Welcome Text */}
@@ -172,30 +171,8 @@ export default function SignIn() {
           </p>
         </div>
 
-        {/* Features Preview */}
-        <div className="mt-12 bg-cinema-gradient rounded-2xl p-6 text-white text-center">
-          <h3 className="font-display font-bold text-lg mb-2">¿Por qué CineLista?</h3>
-          <div className="grid grid-cols-3 gap-4 text-sm">
-            <div>
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <Film className="w-4 h-4" />
-              </div>
-              <p className="font-medium">10K+ Películas</p>
-            </div>
-            <div>
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <LogIn className="w-4 h-4" />
-              </div>
-              <p className="font-medium">Login</p>
-            </div>
-            <div>
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-2">
-                {/* Placeholder for additional feature icon */}
-              </div>
-              <p className="font-medium">Feature Placeholder</p>
-            </div>
-          </div>
-        </div>
+        
+
       </div>
     </div>
   )

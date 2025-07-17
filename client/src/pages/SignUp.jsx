@@ -54,7 +54,6 @@ export default function SignUp() {
             <div className="w-20 h-20 bg-cinema-gradient rounded-3xl flex items-center justify-center mx-auto shadow-cinema-lg">
               <Film className="h-10 w-10 text-white" />
             </div>
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-cinema-gold-500 rounded-full animate-glow-pulse"></div>
           </div>
 
           {/* Welcome Text */}
@@ -223,12 +222,7 @@ export default function SignUp() {
               </div>
               <p className="text-sm font-medium">Compartí tus listas con amigos</p>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                <CheckCircle className="w-4 h-4" />
-              </div>
-              <p className="text-sm font-medium">Acceso a más de 10,000 películas</p>
-            </div>
+            
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
                 <CheckCircle className="w-4 h-4" />

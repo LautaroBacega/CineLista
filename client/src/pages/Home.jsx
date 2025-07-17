@@ -145,7 +145,7 @@ export default function Home() {
           {/* Background Gradient */}
           <div className="absolute inset-0 bg-cinema-gradient opacity-5"></div>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-8">
             <div className="text-center mb-16">
               {/* Hero Badge */}
               <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-cinema-neutral-200 rounded-full px-6 py-3 mb-8 shadow-lg">
@@ -165,7 +165,7 @@ export default function Home() {
               </p>
 
               {/* Stats */}
-              <div className="flex flex-wrap justify-center gap-8 mb-16">
+              {/* <div className="flex flex-wrap justify-center gap-8 mb-16">
                 <div className="text-center">
                   <div className="text-3xl font-display font-bold text-cinema-red-500">10K+</div>
                   <div className="text-cinema-neutral-600 font-medium">Películas</div>
@@ -178,7 +178,7 @@ export default function Home() {
                   <div className="text-3xl font-display font-bold text-cinema-gold-500">50K+</div>
                   <div className="text-cinema-neutral-600 font-medium">Listas Creadas</div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Search Component */}
