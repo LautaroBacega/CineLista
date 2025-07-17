@@ -141,7 +141,7 @@ export default function Home() {
 
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="relative overflow-hidden">
+        <section className="relative">
           {/* Background Gradient */}
           <div className="absolute inset-0 bg-cinema-gradient opacity-5"></div>
 
