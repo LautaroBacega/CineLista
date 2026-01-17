@@ -1,22 +1,12 @@
 # 🎬 CineLista
 
-<div align="center">
-  <img src="client/public/logo.png" alt="CineLista Logo" width="120" height="120">
-  
-  [![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
-  [![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
-  [![MongoDB](https://img.shields.io/badge/MongoDB-6.0-green.svg)](https://mongodb.com/)
-  [![Express](https://img.shields.io/badge/Express-4.18-lightgrey.svg)](https://expressjs.com/)
-  [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.3-blue.svg)](https://tailwindcss.com/)
-</div>
-
-## 📖 Descripción
+## Descripción
 
 **CineLista** es una aplicación web full-stack que permite a los usuarios descubrir, organizar y compartir sus películas favoritas. Con una interfaz cinematográfica moderna y funcionalidades avanzadas, los usuarios pueden crear listas personalizadas, explorar un extenso catálogo de películas y compartir sus descubrimientos con la comunidad.
 
-## ✨ Características Principales
+## Características Principales
 
-### 🔐 **Sistema de Autenticación Completo**
+### **Sistema de Autenticación Completo**
 - **Registro e inicio de sesión** con validación de formularios
 - **Autenticación con Google** usando Firebase Auth
 - **Recuperación de contraseña** con envío de emails
@@ -24,35 +14,35 @@
 - **Sesiones persistentes** con localStorage
 - **Middleware de verificación** para rutas protegidas
 
-### 🎭 **Gestión de Películas**
+### **Gestión de Películas**
 - **Catálogo extenso** con más de 10,000 películas (TMDB API)
 - **Búsqueda inteligente** con autocompletado en tiempo real
 - **Detalles completos** de películas (sinopsis, reparto, calificaciones)
 - **Películas trending** basadas en búsquedas populares
 - **Información técnica** (presupuesto, recaudación, idiomas)
 
-### 📝 **Sistema de Listas Personalizadas**
+### **Sistema de Listas Personalizadas**
 - **Listas por defecto**: Favoritas, Aún no he visto, Ya vistas
 - **Listas personalizadas** con nombre y descripción
 - **Listas públicas/privadas** con control de visibilidad
 - **Compartir listas** con enlaces únicos
 - **Gestión completa** (crear, editar, eliminar, agregar/quitar películas)
 
-### 🎨 **Interfaz de Usuario Cinematográfica**
+### **Interfaz de Usuario Cinematográfica**
 - **Diseño responsive** optimizado para todos los dispositivos
 - **Tema cinematográfico** con paleta de colores profesional
 - **Animaciones fluidas** y transiciones suaves
 - **Componentes reutilizables** con sistema de diseño consistente
 - **Modales interactivos** para detalles y confirmaciones
 
-### 🚀 **Funcionalidades Avanzadas**
+### **Funcionalidades Avanzadas**
 - **Acciones rápidas** en tarjetas de películas (hover effects)
 - **Búsqueda con debounce** para optimizar requests
 - **Notificaciones de éxito** para acciones del usuario
 - **Manejo de errores** robusto con mensajes informativos
 - **Carga lazy** y optimización de imágenes
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 ### **Frontend**
 - **React 18** - Biblioteca de UI con hooks modernos
@@ -83,7 +73,7 @@
 - **Git** - Control de versiones
 - **Render** - Deployment y hosting
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 \`\`\`
 MovieApp-Login/
@@ -138,7 +128,7 @@ MovieApp-Login/
 └── README.md                     # Documentación
 \`\`\`
 
-## 🚀 Instalación y Configuración
+## Instalación y Configuración
 
 ### **Prerrequisitos**
 - Node.js 18.x o superior
@@ -215,7 +205,7 @@ La aplicación estará disponible en:
 - Frontend: `http://localhost:5173`
 - Backend: `http://localhost:3000`
 
-## 🔧 APIs y Servicios
+## APIs y Servicios
 
 ### **TMDB API**
 - **Búsqueda de películas**: `/search/movie`
@@ -255,7 +245,7 @@ POST /update/:id          // Actualizar perfil
 DELETE /delete/:id        // Eliminar cuenta
 \`\`\`
 
-## 🎯 Funcionalidades Detalladas
+## Funcionalidades Detalladas
 
 ### **Sistema de Autenticación**
 1. **Registro**: Validación de email, hash de contraseña, creación de listas por defecto
@@ -277,7 +267,7 @@ DELETE /delete/:id        // Eliminar cuenta
 3. **Filtros**: Búsqueda por título, año, género
 4. **Detalles**: Información completa de TMDB API
 
-## 🔒 Seguridad
+## Seguridad
 
 - **Hashing de contraseñas** con bcrypt (salt rounds: 10)
 - **Tokens JWT** con expiración corta (15 minutos)
@@ -287,7 +277,7 @@ DELETE /delete/:id        // Eliminar cuenta
 - **Rate limiting** implícito con debounce
 - **Sanitización** de datos de usuario
 
-## 📱 Responsive Design
+## Responsive Design
 
 - **Mobile First**: Diseño optimizado para móviles
 - **Breakpoints**: sm, md, lg, xl, 2xl
@@ -295,7 +285,7 @@ DELETE /delete/:id        // Eliminar cuenta
 - **Touch Friendly**: Botones y áreas de toque optimizadas
 - **Performance**: Lazy loading y optimización de imágenes
 
-## 🚀 Deployment
+## Deployment
 
 ### **Backend (Render)**
 1. Conectar repositorio de GitHub
@@ -309,13 +299,10 @@ DELETE /delete/:id        // Eliminar cuenta
 3. Output directory: `dist`
 4. Variables de entorno de producción
 
-## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
+## 👨Autor
 
-## 👨‍💻 Autor
-
-**Tu Nombre**
+**TLautaro Bacega**
 - GitHub: https://github.com/LautaroBacega
 - LinkedIn: https://www.linkedin.com/in/lautaro-bacega/
 - Email: lautibacega@gmail.com
