@@ -302,7 +302,7 @@ DELETE /delete/:id        // Eliminar cuenta
 
 ## Autor
 
-**TLautaro Bacega**
+**Lautaro Bacega**
 - GitHub: https://github.com/LautaroBacega
 - LinkedIn: https://www.linkedin.com/in/lautaro-bacega/
 - Email: lautibacega@gmail.com
