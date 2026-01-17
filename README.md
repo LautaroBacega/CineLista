@@ -300,7 +300,7 @@ DELETE /delete/:id        // Eliminar cuenta
 4. Variables de entorno de producción
 
 
-## 👨Autor
+## Autor
 
 **TLautaro Bacega**
 - GitHub: https://github.com/LautaroBacega
